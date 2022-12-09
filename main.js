@@ -31,28 +31,38 @@ class CocktailController {
       .json()
       .then((data) => data.drinks)
       .then((cocktails) => {
-        cocktails.forEach((cocktail) => {
-          const ingredients = [];
-          for (let i = 1; i < 16; i++) {
-            if (cocktail["strIngredient" + i]) {
-              ingredients.push(
-                cocktail["strIngredient" + i] + " " + cocktail["strMeasure" + i]
-              );
-            } else {
-              break;
-            }
-          }
-          this.cocktail.push(
-            new CocktailModele(
-              cocktail.strDrink,
-              cocktail.strDrinkThumb,
-              cocktail.strInstructions,
-              ingredients
-            )
-          );
-        });
-        return this.cocktail;
+        this.cocktail = new CocktailViewModele().filterCocktail(cocktails);
       });
+  }
+}
+
+class CocktailViewModele {
+  constructor() {
+    this.cocktail = [];
+  }
+
+  filterCocktail(cocktails) {
+    cocktails.forEach((cocktail) => {
+      const ingredients = [];
+      for (let i = 1; i < 16; i++) {
+        if (cocktail["strIngredient" + i]) {
+          ingredients.push(
+            cocktail["strIngredient" + i] + " " + cocktail["strMeasure" + i]
+          );
+        } else {
+          break;
+        }
+      }
+      this.cocktail.push(
+        new CocktailModele(
+          cocktail.strDrink,
+          cocktail.strDrinkThumb,
+          cocktail.strInstructions,
+          ingredients
+        )
+      );
+    });
+    return this.cocktail;
   }
 }
 
@@ -101,21 +111,15 @@ class CocktailVue {
 }
 
 btn.addEventListener("click", () => {
-  // Créer un nouveau contrôleur de cocktails
   const cocktailController = new CocktailController();
 
-  // Récupérer les cocktails à partir de l'API
   cocktailController.getCocktail().then(() => {
-    // Créer une nouvelle vue de cocktails
     const cocktailVue = new CocktailVue();
 
-    // Supprimer les cocktails existants de la vue
     cocktailVue.supprimerCocktail();
 
-    // Mettre à jour la liste de cocktails de la vue avec les cocktails récupérés à partir de l'API
     cocktailVue.cocktail = cocktailController.cocktail;
 
-    // Afficher chaque cocktail dans la vue
     cocktailVue.cocktail.forEach((cocktail) => {
       cocktailVue.afficherCocktail(cocktail);
     });
