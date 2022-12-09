@@ -32,6 +32,14 @@ class CocktailController {
       .then((data) => data.drinks)
       .then((cocktails) => {
         this.cocktail = new CocktailViewModele().filterCocktail(cocktails);
+        const cocktailVue = new CocktailVue();
+        cocktailVue.supprimerCocktail();
+
+        cocktailVue.cocktail = this.cocktail;
+    
+        cocktailVue.cocktail.forEach((cocktail) => {
+          cocktailVue.afficherCocktail(cocktail);
+        });
       });
   }
 }
@@ -112,16 +120,5 @@ class CocktailVue {
 
 btn.addEventListener("click", () => {
   const cocktailController = new CocktailController();
-
-  cocktailController.getCocktail().then(() => {
-    const cocktailVue = new CocktailVue();
-
-    cocktailVue.supprimerCocktail();
-
-    cocktailVue.cocktail = cocktailController.cocktail;
-
-    cocktailVue.cocktail.forEach((cocktail) => {
-      cocktailVue.afficherCocktail(cocktail);
-    });
-  });
+  cocktailController.getCocktail();
 });
