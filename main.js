@@ -21,9 +21,7 @@ class CocktailModele {
 }
 
 class CocktailController {
-  constructor() {
-    this.cocktail = [];
-  }
+  constructor() {}
 
   async getCocktail() {
     const response = await fetch(api_url);
@@ -31,13 +29,12 @@ class CocktailController {
       .json()
       .then((data) => data.drinks)
       .then((cocktails) => {
-        this.cocktail = new CocktailViewModele().filterCocktail(cocktails);
+        const cocktailList = new CocktailViewModele().filterCocktail(cocktails);
+
         const cocktailVue = new CocktailVue();
         cocktailVue.supprimerCocktail();
 
-        cocktailVue.cocktail = this.cocktail;
-    
-        cocktailVue.cocktail.forEach((cocktail) => {
+        cocktailList.forEach((cocktail) => {
           cocktailVue.afficherCocktail(cocktail);
         });
       });
@@ -45,11 +42,10 @@ class CocktailController {
 }
 
 class CocktailViewModele {
-  constructor() {
-    this.cocktail = [];
-  }
+  constructor() {}
 
   filterCocktail(cocktails) {
+    const cocktailList = [];
     cocktails.forEach((cocktail) => {
       const ingredients = [];
       for (let i = 1; i < 16; i++) {
@@ -61,7 +57,7 @@ class CocktailViewModele {
           break;
         }
       }
-      this.cocktail.push(
+      cocktailList.push(
         new CocktailModele(
           cocktail.strDrink,
           cocktail.strDrinkThumb,
@@ -70,14 +66,12 @@ class CocktailViewModele {
         )
       );
     });
-    return this.cocktail;
+    return cocktailList;
   }
 }
 
 class CocktailVue {
-  constructor() {
-    this.cocktail = [];
-  }
+  constructor() {}
 
   afficherCocktail(cocktail) {
     const div = document.createElement("div");
