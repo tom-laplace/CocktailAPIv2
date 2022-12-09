@@ -1,0 +1,43 @@
+.btnDiv {
+    margin: auto;
+    width: 200px;
+}
+
+.cocktailDiv {
+    margin: auto;
+    text-align: center;
+}
+
+.cocktailImg {
+    width: 100px;
+    height: 100px;
+}
+
+.cocktailIngredients {
+    list-style: none;
+}
+
+.btn {
+    min-width: 130px;
+    height: 40px;
+    color: #fff;
+    padding: 5px 10px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+    outline: none;
+    border-radius: 5px;
+    border: none;
+    background: #ef233c;
+    box-shadow: 0 5px #d90429;
+  }
+  .btn:hover {
+    box-shadow: 0 3px #d90429;
+    top: 1px;
+  }
+  .btn:active {
+    box-shadow: 0 0 #d90429;
+    top: 5px;
+  }
